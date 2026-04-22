@@ -1,0 +1,64 @@
+김성환
+
+kgmyh@naver.com
+
+================================================
+윈도우 에서
+터미널(cmd)
+python --version (잘깔렸는지 확인)
+
+VS CODE 에서
+IDE(I-통합 D-개발 E-환경)
+VS CODE
+
+VS CODE 설치 후 
+VS CODE exxtension (확장버튼 : 좌측 사각 4개)
+python
+jupyter 기입 후 맨위 다운
+
+한국어로 변환
+korean 기입 후 맨위 다운
+
+파일 압축 해제 경로 ( 01_python 폴더에 압축풀기 )
+C:\Users\Playdata\Documents\01_python
+
+icon theme
+첫번 째 것 다운
+
+ctrl + j (터미널 열기)
+pip install jupyterlab
+
+(외부파일 제약 해제)
+검색창 power shell 관리자모드로 실행
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Y
+Get-ExecutionPolicy
+RemoteSigned 나오면 완료
+
+단축키(중요)
+# 실행 단축키 : shift + enter (실행하고 다음 셀로 이동)
+#               control + enter (실행만 한다.)
+# cell 위에 빈 cell을 만들기 : a
+# cell 아래 빈 cell을 만들기 : b
+# cell 삭제 : dd (x : 잘라내기)
+
+edit 모드 : 커서가 깜빡일때 
+명령모드 : 커서가 없을때
+
+변수
+변수는 식별자(이름)으로 관리된다
+
+name = 10
+식별자   정수
+
+값은 메모리에 저장 된다
+
+값은 무조건 들어가야함 들어갈 값이 없으면 none
+
+# 식별자규칙
+변수에
+3age 불가능
+age3 가능
+특수문자는 _만가능
+my_age 가능
+my+age 불가능

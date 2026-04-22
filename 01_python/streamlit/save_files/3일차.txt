@@ -1,0 +1,2 @@
+터미널 
+git --version

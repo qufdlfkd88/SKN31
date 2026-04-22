@@ -12,7 +12,8 @@ st.set_page_config(page_title="Input Widget", layout="wide")
 ################################################################
 st.subheader("text 입력")
 name_value = st.text_input("이름")
-st.write("이름: " + name_value)
+if name_value != "":
+    st.write("이름: " + name_value)
 
 st.subheader("여러줄 텍스트 입력")
 info = st.text_area("정보", height=200)  #height: pixcel
@@ -71,6 +72,7 @@ st.write("**선택한 지역**:", option)
 st.subheader("Checkbox")
 @st.cache_data
 def get_data():
+    # 파일에 저장된 표를 읽어서 DataFrame으로 만든다.
     df = pd.read_csv("data/boston_housing.csv").head(10)
     return df
 
@@ -102,7 +104,8 @@ os.makedirs(save_dir, exist_ok=True)
 if uploaded_file is not None:
     # UploadFile.getvalue(): 업로드된 파일을 bytes로 반환
     # UploadFile.name      : 업로드된 파일이름 반환.
-    bytes_data = uploaded_file.getvalue()
+    bytes_data = uploaded_file.getvalue() # 업로드된 파일 가져오기
+    # 저장할폴더/업로드파일명 -> 저장경로
     save_filepath = os.path.join(save_dir, uploaded_file.name)
     with open(save_filepath, "wb") as fw:
         fw.write(bytes_data)

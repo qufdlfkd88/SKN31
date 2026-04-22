@@ -54,12 +54,12 @@ col4.metric(label="일본JPY(100엔)", value="958.63 원", delta="-7.44 원")
 @st.cache_data
 def get_data():
     print("get_data")
-    df = pd.read_csv("data/boston_housing.csv")
-    return df.head(15)
+    df = pd.read_csv("data/boston_housing.csv") # pandas활용 표 보여주기
+    return df.head(15) # 15줄만 
 
 
 st.divider()
-data = get_data()
+data = get_data() # 15줄 표 가져오기
 st.title("보스톤 지역 주거지역 정보")
 btn = st.button("정보 조회")
 if btn:

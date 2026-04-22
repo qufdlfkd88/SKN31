@@ -1,0 +1,12 @@
+변수 : 값을 저장하는 메모리 공간이다.
+
+키워드, 예약어
+> False      await      else       import     pass
+> None       break      except     in         raise
+> True       class      finally    is         return
+> and        continue   for        lambda     try
+> as         def        from       nonlocal   while
+> assert     del        global     not        with
+> async      elif       if         or         yield
+
+사용불가

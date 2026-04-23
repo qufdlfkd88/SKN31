@@ -1,5 +1,9 @@
 use hr_join;
 
+SELECT * FROM EMP WHERE EMP_ID = 101;
+SELECT * FROM DEPT WHERE DEPT_ID = 90;
+SELECT * FROM JOB WHERE JOB_ID = 'AD_VP';
+SELECT * FROM EMP WHERE EMP_ID = 100;
 /* ********************************************************************************
 조인(JOIN) 이란
 - 2개 이상의 테이블에 있는 컬럼들을 합쳐서 가상의 테이블을 만들어 조회하는 방식을 말한다.
@@ -27,7 +31,7 @@ FROM  테이블a INNER JOIN 테이블b ON 조인조건
 - inner는 생략 할 수 있다.
 **************************************** */
 -- 직원의 ID(emp.emp_id), 이름(emp.emp_name), 입사년도(emp.hire_date), 소속부서이름(dept.dept_name)을 조회
-select e.emp_id, e.emp_name, e.hire_date, d.dept_name
+select e.emp_id, e.emp_name, e.hire_date, d.dept_name, d.dept_id
 from emp e join dept d on e.dept_id = d.dept_id;
 
 
@@ -53,7 +57,7 @@ from   emp e join job j on e.job_id = j.job_id
 where e.emp_id = 200;
 
 -- 부서_ID(dept.dept_id)가 30인 부서의 이름(dept.dept_name), 위치(dept.loc), 그 부서에 소속된 직원의 이름(emp.emp_name)을 조회.
-select d.dept_name, d.loc, e.emp_name
+select d.dept_name, d.loc, e.emp_name, d.dept_id
 from   dept d join emp e on d.dept_id = e.dept_id
 where  d.dept_id = 30;
 
@@ -94,8 +98,9 @@ Self 조인
 select e.emp_id,
 	   e.emp_name "직원이름",
        m.emp_name "상사이름"
-from   emp e join emp m on e.mgr_id = m.emp_id;
-
+from   emp e join emp m on e.mgr_id = m.emp_id
+where  e.emp_id = 101;
+-- e : 직원 , m : 상사
 
 
 /* ****************************************************************************

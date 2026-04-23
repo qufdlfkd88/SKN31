@@ -30,12 +30,12 @@ use testdb;
 ******************************************************************************************* */
 -- EMP 테이블에서 급여(salary)의 총합계, 평균, 최소값, 최대값, 표준편차, 분산, 총직원수를 조회 
 select sum(salary), 
-	     avg(salary),
+	   avg(salary),
        min(salary),
        max(salary),
-       round(stddev(salary),2),
-       round(variance(salary),2)
-from   emp;
+       round(stddev(salary),2) "stddev",
+	   round(variance(salary),2) "variance"
+  from emp;
 
 select count(*) from emp;
 
@@ -86,7 +86,7 @@ group by 절
 ****************/
 
 -- 업무(job)별 급여의 총합계, 평균, 최소값, 최대값, 표준편차, 분산, 직원수를 조회
-select  job,
+select  job, dept_name,
         sum(salary),
         avg(salary),
         min(salary),
@@ -96,6 +96,8 @@ select  job,
         count(*) 
 from emp
 group by job;        
+
+select * from emp;
 
 -- 입사연도 별 직원들의 급여 평균.
 select year(hire_date), avg(salary)
@@ -163,7 +165,7 @@ having count(*) >= 20;
 
 -- 평균 급여가(salary) $5000 이상인 부서의 이름(dept_name)과 평균 급여(salary), 직원수를 조회
 select  dept_name,
-		    avg(salary),
+		avg(salary),
         count(*)
 from    emp
 group by dept_name

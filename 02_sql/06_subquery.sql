@@ -83,6 +83,7 @@ where dept_id = (select dept_id
 						         from emp)
 				 );
 
+-- select max(salary) from emp;
 
 -- Sales 부서(dept.dept_name) 의 평균 급여(emp.salary)보다 급여가 많은 직원들의 모든 정보를 조회.
 select * from emp 
@@ -110,7 +111,7 @@ and salary < (select avg(salary) from emp where job_id = 'ST_CLERK');
 -- 이름(emp.emp_name), 급여(emp.salary)를 급여 내림차순으로 조회.
 select max(salary) from emp where job_id='IT_PROG';
 
-select emp_id, emp_name, salary
+select emp_id, emp_name, salary, job_id
 from   emp
 where  salary > (select max(salary) from emp where job_id='IT_PROG')
 order by salary desc;
@@ -159,5 +160,3 @@ select * from emp where job_id in (select job_id from job where max_salary <= 60
 
 select * from emp
 where salary > all(select salary from emp where dept_id = 20);
-
-

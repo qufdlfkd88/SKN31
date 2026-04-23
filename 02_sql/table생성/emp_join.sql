@@ -1,8 +1,7 @@
 -- CREATE DATABASE hr_join;
 USE  hr_join;
 
--- set foreign_key_checks=0;
-
+ -- set foreign_key_checks=0;
 -- ------------------------------------------------------
 -- DDL FOR DEPT
 -- 부서 테이블
@@ -93,11 +92,14 @@ CREATE TABLE emp(
     comm_pct  DECIMAL(2,2),
     dept_id   INT,
     -- constraint pk_emp primary key(emp_id)
-    CONSTRAINT fk_emp_dept FOREIGN KEY(dept_id) REFERENCES dept(dept_id) ON DELETE SET NULL,
+    CONSTRAINT fk_emp_dept FOREIGN KEY(dept_id) REFERENCES dept(dept_id) ON DELETE SET NULL, -- ON DELETE SET NULL 대신 ON DELETE CASCADE 사용가능 (참조하는 값이 삭제된다면 NULL로 변경)
     CONSTRAINT fk_emp_job FOREIGN KEY(job_id) REFERENCES job(job_id) ON DELETE SET NULL,
-    CONSTRAINT fk_emp_mgr FOREIGN KEY(mgr_id) REFERENCES emp(emp_id) ON DELETE SET NULL
+    CONSTRAINT fk_emp_mgr FOREIGN KEY(mgr_id) REFERENCES emp(emp_id) ON DELETE SET NULL -- 셀프 참조
 ); -- on delete cascade 
-
+-- constraint 제약조건_이름 제약조건(컬럼명)
+-- constraint pk_emp primary key(emp_id)
+-- CONSTRAINT fk_emp_dept FOREIGN KEY(dept_id) REFERENCES dept(dept_id) ON DELETE SET NULL,
+--                                                        참조테이블(컬럼명)
 INSERT INTO emp (emp_id,emp_name,job_id,mgr_id,hire_date,salary,comm_pct,dept_id) VALUES (100,'Steven','AD_PRES',null,CAST('03-06-17' AS DATE),24000,null,90);
 INSERT INTO emp (emp_id,emp_name,job_id,mgr_id,hire_date,salary,comm_pct,dept_id) VALUES (101,'Neena','AD_VP',100,CAST('05-09-21' AS DATE),17000,null,90);
 INSERT INTO emp (emp_id,emp_name,job_id,mgr_id,hire_date,salary,comm_pct,dept_id) VALUES (102,'Lex','AD_VP',100,CAST('01-01-13' AS DATE),17000,null,90);
@@ -224,12 +226,12 @@ INSERT INTO salary_grade (grade,low_sal,high_sal) VALUES (3, 10001, 15000);
 INSERT INTO salary_grade (grade,low_sal,high_sal) VALUES (4, 15001, 20000);
 INSERT INTO salary_grade (grade,low_sal,high_sal) VALUES (5, 20001, 99999);
 
-use hr_join;
-select * from DEPT;
+-- use hr_join;
+-- select * from DEPT;
 
--- (emp_id,emp_name,job_id,mgr_id,hire_date,salary,comm_pct,dept_id)
-INSERT INTO emp VALUES(500, '김직원', 'IT_PROG', 100, '2025-10-10', 5000, NULL, 100);
+-- -- (emp_id,emp_name,job_id,mgr_id,hire_date,salary,comm_pct,dept_id)
+-- INSERT INTO emp VALUES(500, '김직원', 'IT_PROG', 100, '2025-10-10', 5000, NULL, 100);
 
-delete from dept where dept_id = 100;
+-- delete from dept where dept_id = 100;
 
-SELECT * FROM EMP ORDER BY EMP_ID DESC;
+-- SELECT * FROM EMP ORDER BY EMP_ID DESC;

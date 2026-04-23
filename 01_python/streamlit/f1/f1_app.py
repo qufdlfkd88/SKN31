@@ -42,6 +42,7 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 16px;
+        
     }
 
     /* 카드 스타일 */
@@ -97,8 +98,9 @@ st.markdown("""
         background: #1E1E2E;
         border: 1px solid #2E2E3E;
         border-radius: 10px;
-        padding: 10px;
+        padding: 10px;stAppToolbar 
     }
+    
 
     /* 탭 스타일 */
     .stTabs [data-baseweb="tab-list"] {

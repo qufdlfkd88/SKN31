@@ -11,15 +11,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-# # CSS를 활용하여 숨기기 : 
-# hide_streamlit_style = """
-#             <style>
-#             #MainMenu {visibility: hidden;}
-#             footer {visibility: hidden;}
-#             header {visibility: hidden;}
-#             </style>
-#             """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 # ── CSS 스타일 (F1 브랜드 컬러) ──────────────────────────────
 st.markdown("""
 <style>
@@ -35,21 +27,12 @@ st.markdown("""
         background-color: #15151E;
         color: white;
     }
-    /*상단바 크기 조절*/
-    .stAppHeader {
-        background-color: #7D2020;
-        height: 1.75rem;
-        min-height: 1.75rem;
-        transition: all 0.2s ease 0s; 
-    }
-    .stAppHeader:hover {
-        background-color: #5A1717;
-    }
-            
+
     /* 사이드바 */
     [data-testid="stSidebar"] {
         background-color: #1E1E2E;
     }
+
     /* 헤더 */
     .f1-header {
         background: linear-gradient(135deg, #E10600, #FF4444);
@@ -59,6 +42,7 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 16px;
+        
     }
 
     /* 카드 스타일 */
@@ -114,8 +98,9 @@ st.markdown("""
         background: #1E1E2E;
         border: 1px solid #2E2E3E;
         border-radius: 10px;
-        padding: 10px;
+        padding: 10px;stAppToolbar 
     }
+    
 
     /* 탭 스타일 */
     .stTabs [data-baseweb="tab-list"] {
@@ -125,7 +110,6 @@ st.markdown("""
     }
     .stTabs [data-baseweb="tab"] {
         color: #888;
-        padding: 12px;
     }
     .stTabs [aria-selected="true"] {
         background-color: #E10600 !important;
@@ -156,7 +140,7 @@ st.markdown("""
 def get_driver_standings():
     """Ergast API에서 2026 드라이버 순위 가져오기"""
     try:
-        url = "https://ergast.com/api/f1/currenta/driverStandings.json"
+        url = "https://ergast.com/api/f1/current/driverStandings.json"
         res = requests.get(url, timeout=5)
         data = res.json()
         standings = data["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"]
@@ -253,8 +237,8 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     page = st.selectbox(
-        "📍 <style=\'color:\"red\"\'>페이지 선택</style>",
-        ["🏠 홈", "🏆 드라이버 순위", "🏁 컨스트럭터 순위", "📅 레이스 일정", "📊 통계 분석", "🏛️ 히스토리"]
+        "📍 페이지 선택",
+        ["🏠 홈", "🏆 드라이버 순위", "🏁 컨스트럭터 순위", "📅 레이스 일정", "📊 통계 분석"]
     )
 
     st.markdown("---")
@@ -276,31 +260,22 @@ with st.sidebar:
 # 🏠 홈
 if page == "🏠 홈":
     # 헤더
-    # st.markdown("""
-    # <div class='f1-header'>
-    #     <span style='font-size:48px;'>🏎️</span>
-    #     <div>
-    #         <h1 style='margin:0; color:white; font-size:32px;'>FORMULA 1</h1>
-    #         <p style='margin:0; color:#FFD0D0; font-size:14px;'>2026 월드 챔피언십</p>
-    #     </div>
-    # </div>
-    # """, unsafe_allow_html=True)
-
-    # # 다음 레이스 배너
-    # st.markdown("""
-    # <div class='next-race-banner'>
-    #     <p style='color:#FFD0D0; font-size:12px; letter-spacing:3px; margin:0;'>NEXT RACE</p>
-    #     <h2 style='color:white; font-size:28px; margin:8px 0;'>🇺🇸 MIAMI GRAND PRIX</h2>
-    #     <p style='color:#FFD0D0; font-size:16px; margin:0;'>Miami International Autodrome · 2026년 5월 1-3일</p>
-    # </div>
-    # """, unsafe_allow_html=True)
-
     st.markdown("""
     <div class='f1-header'>
         <span style='font-size:48px;'>🏎️</span>
         <div>
-            st.video
+            <h1 style='margin:0; color:white; font-size:32px;'>FORMULA 1</h1>
+            <p style='margin:0; color:#FFD0D0; font-size:14px;'>2026 월드 챔피언십</p>
         </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # 다음 레이스 배너
+    st.markdown("""
+    <div class='next-race-banner'>
+        <p style='color:#FFD0D0; font-size:12px; letter-spacing:3px; margin:0;'>NEXT RACE</p>
+        <h2 style='color:white; font-size:28px; margin:8px 0;'>🇺🇸 MIAMI GRAND PRIX</h2>
+        <p style='color:#FFD0D0; font-size:16px; margin:0;'>Miami International Autodrome · 2026년 5월 1-3일</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -325,7 +300,7 @@ if page == "🏠 홈":
     col_a, col_b = st.columns([3, 2])
 
     with col_a:
-        st.markdown("### 🏆 2026 드라이버 TOP 5")
+        st.markdown("### 🏆 드라이버 TOP 5")
         top5 = driver_df.head(5)
         for _, row in top5.iterrows():
             color = TEAM_COLORS.get(row["팀"], "#888")
@@ -530,5 +505,3 @@ elif page == "📊 통계 분석":
             xaxis_tickangle=-30,
         )
         st.plotly_chart(fig, use_container_width=True)
-elif page == "🏛️ 히스토리":
-    st.markdown("## 🏛️ 히스토리")

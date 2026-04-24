@@ -35,7 +35,32 @@ st.markdown("""
         background-color: #15151E;
         color: white;
     }
-    /*상단바 크기 조절*/
+    /* 리스트 라벨 색상 변경 */
+    .stSelectbox label p{
+        color: #FFFFFF !important;
+    }
+    
+    /* 상단 바 deploy 버튼 제거 */
+    .stAppDeployButton {
+        visibility: hidden;
+    }
+    [data-testid="stSidebarHeader"] button{
+        filter: brightness(200%);
+        visibility: visible !important;
+    }        
+    
+    /* 어두운 텍스트들 밝게 수정 */
+    [data-testid="stMarkdownContainer"] > p{
+        color: #cacaca;
+        transition: all 0.2s ease 0s;
+    }  
+    [data-testid="stMarkdownContainer"] > p:hover{
+        color: #FFFFFF;
+    }
+    [data-testid="stCaptionContainer"] {
+        color: #dddddd;
+    }
+    /* 상단바 크기, 색상 조절 */
     .stAppHeader {
         background-color: #7D2020;
         height: 1.75rem;
@@ -75,7 +100,6 @@ st.markdown("""
         transform: translateY(-2px);
         border-color: #E10600;
     }
-
     /* 드라이버 카드 */
     .driver-card {
         background: linear-gradient(145deg, #1E1E2E, #2E2E3E);
@@ -83,6 +107,17 @@ st.markdown("""
         border-radius: 8px;
         padding: 16px;
         margin: 8px 0;
+        transition: all 0.2s ease 0s;
+        --shadow-ox: 0px;
+        --shadow-oy: 0px;
+        --shadow-blur: 0px;
+        --shadow-color: #000000;
+        box-shadow: var(--shadow-ox) var(--shadow-oy) var(--shadow-blur) var(--shadow-color);
+    }
+    .driver-card:hover{
+        border-left-width: 12px;
+        filter: brightness(110%);
+        --shadow-blur: 10px;
     }
 
     /* 배지 */
@@ -116,7 +151,6 @@ st.markdown("""
         border-radius: 10px;
         padding: 10px;
     }
-
     /* 탭 스타일 */
     .stTabs [data-baseweb="tab-list"] {
         background-color: #1E1E2E;
@@ -141,7 +175,31 @@ st.markdown("""
         text-align: center;
         margin-bottom: 20px;
     }
-
+    .next-race-banner:hover {
+        filter: brightness(130%);
+    }
+    /* 다음 레이스 배너 - 내부 유튜브 비디오 임베드 */
+    .video-wrapper {
+        position: relative;
+        height: 0px;
+        opacity: 0;
+        transition: all 0.5s ease 0s;    
+        justify-content: center;
+        width: 100%;
+        height: 0px;
+        border: none;
+    }
+    /* 레이스 배너에 마우스 올릴 경우 */
+    .next-race-banner:hover .video-wrapper {
+        margin-top: 20px;
+        height:480px;
+        opacity: 1;
+    }
+    /* 데이터프레임에 마우스 올리면 나타나는 UI 지우기. 사용시 주석 지울 것 */
+    [data-testid="stElementToolbar"] {
+        visibility: hidden !important;        
+    }
+    
     /* 테이블 */
     .stDataFrame {
         background: #1E1E2E !important;
@@ -246,15 +304,15 @@ TEAM_COLORS = {
 with st.sidebar:
     st.markdown("""
     <div style='text-align:center; padding: 10px 0 20px;'>
-        <span style='font-size:48px'>🏎️</span>
+        <span " style='font-size:48px'>🏎️</span>
         <h2 style='color:#E10600; margin:0;'>F1 Dashboard</h2>
         <p style='color:#888; font-size:12px;'>2026 시즌</p>
     </div>
     """, unsafe_allow_html=True)
-
+    
     page = st.selectbox(
-        "📍 <style=\'color:\"red\"\'>페이지 선택</style>",
-        ["🏠 홈", "🏆 드라이버 순위", "🏁 컨스트럭터 순위", "📅 레이스 일정", "📊 통계 분석", "🏛️ 히스토리"]
+        "📍페이지 선택",
+        ["🏠 홈", "🏆 드라이버 순위", "🏁 컨스트럭터 순위", "📅 레이스 일정", "📊 통계 분석"]
     )
 
     st.markdown("---")
@@ -276,31 +334,23 @@ with st.sidebar:
 # 🏠 홈
 if page == "🏠 홈":
     # 헤더
-    # st.markdown("""
-    # <div class='f1-header'>
-    #     <span style='font-size:48px;'>🏎️</span>
-    #     <div>
-    #         <h1 style='margin:0; color:white; font-size:32px;'>FORMULA 1</h1>
-    #         <p style='margin:0; color:#FFD0D0; font-size:14px;'>2026 월드 챔피언십</p>
-    #     </div>
-    # </div>
-    # """, unsafe_allow_html=True)
-
-    # # 다음 레이스 배너
-    # st.markdown("""
-    # <div class='next-race-banner'>
-    #     <p style='color:#FFD0D0; font-size:12px; letter-spacing:3px; margin:0;'>NEXT RACE</p>
-    #     <h2 style='color:white; font-size:28px; margin:8px 0;'>🇺🇸 MIAMI GRAND PRIX</h2>
-    #     <p style='color:#FFD0D0; font-size:16px; margin:0;'>Miami International Autodrome · 2026년 5월 1-3일</p>
-    # </div>
-    # """, unsafe_allow_html=True)
-
     st.markdown("""
     <div class='f1-header'>
         <span style='font-size:48px;'>🏎️</span>
         <div>
-            st.video
+            <h1 style='margin:0; color:white; font-size:32px;'>FORMULA 1</h1>
+            <p style='margin:0; color:#FFD0D0; font-size:14px;'>2026 월드 챔피언십</p>
         </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # 다음 레이스 배너
+    st.markdown("""
+    <div class='next-race-banner'>
+        <p style='color:#FFD0D0; font-size:12px; letter-spacing:3px; margin:0;'>NEXT RACE</p>
+        <h2 style='color:white; font-size:28px; margin:8px 0;'>🇺🇸 MIAMI GRAND PRIX</h2>
+        <p style='color:#FFD0D0; font-size:16px; margin:0;'>Miami International Autodrome · 2026년 5월 1-3일</p>
+        <iframe class="video-wrapper" src="https://www.youtube.com/embed/C3pAE40Fgc0?si=vX-VxgVNa5rRNYfH" allow="autoplay;"></iframe>
     </div>
     """, unsafe_allow_html=True)
 
@@ -325,13 +375,13 @@ if page == "🏠 홈":
     col_a, col_b = st.columns([3, 2])
 
     with col_a:
-        st.markdown("### 🏆 2026 드라이버 TOP 5")
+        st.markdown("### 🏆 드라이버 TOP 5")
         top5 = driver_df.head(5)
         for _, row in top5.iterrows():
             color = TEAM_COLORS.get(row["팀"], "#888")
             medal = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"][row["순위"] - 1]
             st.markdown(f"""
-            <div class='driver-card' style='border-left-color:{color};'>
+            <div class='driver-card' style='border-left-color:{color}; --shadow-color:{color};'>
                 <div style='display:flex; justify-content:space-between; align-items:center;'>
                     <div>
                         <span style='font-size:20px; margin-right:8px;'>{medal}</span>
@@ -372,18 +422,22 @@ elif page == "🏆 드라이버 순위":
     st.markdown("## 🏆 2026 드라이버 챔피언십")
     df = get_driver_standings()
 
+    # 검색창을 선택하면 필터창을 지우고, 반대면 반대로 만들기. on_change 속성에 콜백함수로 넣음
+    def dr_change_driver():
+        st.session_state.dr_search_team = ""
+    def dr_change_team():
+        st.session_state.dr_search_driver = ""
+
     # 검색 & 필터
     col1, col2 = st.columns([3, 1])
     with col1:
-        search = st.text_input("🔍 드라이버 검색", placeholder="이름을 입력하세요...")
+        search = st.text_input("🔍 드라이버 검색", key="dr_search_driver", on_change=dr_change_driver, placeholder="이름을 입력하세요...", )
     with col2:
-        team_filter = st.selectbox("팀 필터", ["전체"] + sorted(df["팀"].unique().tolist()))
-
+        team_filter = st.selectbox("팀 필터", ["전체"] + sorted(df["팀"].unique().tolist()), key="dr_search_team", on_change=dr_change_team)
     if search:
         df = df[df["드라이버"].str.contains(search, case=False)]
     if team_filter != "전체":
         df = df[df["팀"] == team_filter]
-
     # 테이블
     st.dataframe(
         df.style.background_gradient(subset=["포인트"], cmap="Reds"),
@@ -506,8 +560,7 @@ elif page == "📊 통계 분석":
             size="포인트",
             hover_name="드라이버",
             color_discrete_map=TEAM_COLORS,
-            template="plotly_dark",
-            text="드라이버",
+            template="plotly_dark"
         )
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(30,30,46,0.5)")
         fig.update_traces(textposition="top center", textfont_size=10)
@@ -530,5 +583,3 @@ elif page == "📊 통계 분석":
             xaxis_tickangle=-30,
         )
         st.plotly_chart(fig, use_container_width=True)
-elif page == "🏛️ 히스토리":
-    st.markdown("## 🏛️ 히스토리")

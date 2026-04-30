@@ -24,10 +24,10 @@ Mysql Workbench
 
 **********************************************************************************************************/
 -- local 접속 계정
-create user 'playdata'@'localhost' identified by '1111';
+create user 'teamf1'@'192.168.200.195' identified by '1111';
 
 -- 원격 접속 계정
-create  user  'playdata'@'%'  identified by '1111';
+create  user  'teamf1'@'%'  identified by '1111';
 
 -- 등록된 사용자계정 조회
 select user, host from mysql.user;
@@ -42,8 +42,8 @@ select user, host from mysql.user;
   - DB 객체 관리: create, drop, alter
   - 사용자관리: create user, drop user, grant option
 ********************************************************/
-grant all privileges on *.* to 'playdata'@'localhost';
-grant all privileges on *.* to 'playdata'@'%';
+grant all privileges on *.* to 'teamf1'@'192.168.200.195';
+grant all privileges on *.* to 'teamf1'@'%';
 
 -- user 권환 조회
 show grants for 'playdata'@'localhost';

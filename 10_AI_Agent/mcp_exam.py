@@ -26,11 +26,19 @@ async def main():
                     "@modelcontextprotocol/server-filesystem",
                     os.getcwd() # server-filesystem이 사용할 수 있는 디렉토리.
                 ]
+            },
+            "playwright": {
+                "transport":"stdio",
+                "command": "npx",
+                "args": [
+                    "@playwright/mcp@latest"
+                ]
             }
         }
     )
     # Langchain Tool List 로 변환
     tools = await client.get_tools()
+    print("툴 개수:", len(tools))
 
     # Agent 생성
     agent = create_agent(

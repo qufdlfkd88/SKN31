@@ -128,6 +128,8 @@ def build_graph(store: BaseStore, checkpointer: BaseCheckpointSaver):
     builder.add_edge(START, "load_context")
     builder.add_edge("load_context", "agent")
     
+    # tools_condition: "tools"(ToolNode 호출), "__end__"
+    # Path map을 생략하면 router가 반환한 식별자가 이름인 노드를 호출.
     builder.add_conditional_edges("agent", tools_condition)
     builder.add_edge("tools", "agent")
 

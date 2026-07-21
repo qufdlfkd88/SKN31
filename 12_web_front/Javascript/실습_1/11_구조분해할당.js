@@ -11,13 +11,13 @@
   ---------------------------------------------
 */
 {
-  const colors = ["red", "green", "blue"];
+//   const colors = ["red", "green", "blue"];
 
-  const [first, second, third] = colors;
+//   const [first, second, third] = colors;
 
-  console.log(first);  // "red"
-  console.log(second); // "green"
-  console.log(third); // "blue"
+//   console.log(first);  // "red"
+//   console.log(second); // "green"
+//   console.log(third); // "blue"
 }
 
 /* 일부 값은 건너뛸 수 있다. */
@@ -27,7 +27,8 @@
   // const [first1, second] = numbers
   // const [first2, , third] = numbers;
 
-  // console.log(first1, first2, second, third);
+  // console.log(first1, second);
+  // console.log(first2, third);
 }
 
 /* 기본값을 지정할 수 있다. */
@@ -35,6 +36,7 @@
   // const values = [10];
 
   // const [a, b = 0] = values;
+  // const [a, b] = values;
 
   // console.log(a, b); // 10, 0
 }
@@ -46,6 +48,7 @@
   // const [first, second, ...rest] = numbers;
 
   // console.log(rest); // [3, 4, 5]
+  // console.log(first,second)
 }
 
 /*
@@ -67,7 +70,7 @@
 
   /* 다른 변수 이름으로 받을 수 있다. */
   // const { name: userName, age: userAge } = user;
-
+  // name: userName - name 속성의 값을 userName 변수에 대입
   // console.log(userName, userAge);
 }
 
@@ -78,6 +81,7 @@
   // };
 
   // const { name, age = 0 } = user;
+  // console.log(name, age);
 }
 
 /*

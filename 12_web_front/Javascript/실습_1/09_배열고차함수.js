@@ -17,9 +17,9 @@
   const numbers = [10, 20, 30];
 
   //forEach()에 전달되는 함수는 파라미터로 배열의 개별 요소와 index를 받는다.
-  numbers.forEach((number, index) => {
-    console.log(index, number);
-  });
+  // numbers.forEach((number, index) => {
+  //   console.log(index, number);
+  // });
 }
 
 /*
@@ -54,19 +54,20 @@
   배열의 각 요소들 중 조건을 만족하는 것들만 모아 새로운 배열을 만든다.
 */
 {
-  // const numbers = [1, 2, 3, 4, 5];
-  // const evenNumbers = numbers.filter(number => number % 2 === 0);
+//   const numbers = [1, 2, 3, 4, 5];
+//   const evenNumbers = numbers.filter(number => number % 2 === 0);
 
-  // console.log(evenNumbers); // [2, 4]
+//   console.log(evenNumbers); // [2, 4]
 }
 
 {
-  // const users = [
-  //   { id: 1, name: "홍길동", active: true },
-  //   { id: 2, name: "이순신", active: false },
-  // ];
+//   const users = [
+//     { id: 1, name: "홍길동", active: true },
+//     { id: 2, name: "이순신", active: false },
+//   ];
 
-  // const activeUsers = users.filter(user => user.active);
+//   const activeUsers = users.filter(user => user.active);
+//   console.log(activeUsers);
 }
 
 /*
@@ -79,9 +80,12 @@
   // const users = [
   //   { id: 1, name: "홍길동" },
   //   { id: 2, name: "이순신" },
+  //   { id: 3, name: "이순신" },
+  //   { id: 4, name: "이순신" },
   // ];
 
-  // const user = users.find(item => item.id === 2);
+  // // const user = users.find(item => item.name === "이순신"); // 조건이 맞는 첫번째 값만 찾음
+  // const user = users.filter(item => item.name === "이순신");  // 조건이 맞는 전체 다 찾음
 
   // console.log(user);
 }
@@ -93,7 +97,7 @@
   조건을 만족하는 첫 번째 요소의 인덱스를 반환한다. 찾지 못하면 -1을 반환한다.
 */
 {
-  // const numbers = [10, 20, 30];
+  // const numbers = [10, 20, 30, 20, 20, 20];
   // const index = numbers.findIndex(number => number === 20);
 
   // console.log(index); // 1
@@ -106,11 +110,11 @@
   조건을 만족하는 요소가 하나라도 있으면 true를 반환한다.
 */
 {
-  // const scores = [70, 80, 95];
+//   const scores = [70, 80, 95];
 
-  // const hasExcellentScore = scores.some(score => score >= 90);
+//   const hasExcellentScore = scores.some(score => score >= 90);
 
-  // console.log(hasExcellentScore); // true
+//   console.log(hasExcellentScore); // true
 }
 
 /*
@@ -138,6 +142,13 @@
 {
   // const numbers = [10, 20, 30];
 
+  // let total1 = 0;
+
+  // for(const number of numbers) {
+  //   total1 += number;
+  // }
+  // console.log(total1)
+
   // const total = numbers.reduce((sum, number) => {
   //   return sum + number;
   // }, 0);
@@ -157,16 +168,17 @@
   여러 작업을 하나의 표현식으로 처리할 수 있다.
 */
 {
-  // const users = [
-  //   { name: "홍길동", age: 20, active: true },
-  //   { name: "이순신", age: 17, active: true },
-  //   { name: "강감찬", age: 30, active: false },
-  // ];
+  const users = [
+    { name: "홍길동", age: 20, active: true },
+    { name: "이순신", age: 17, active: true },
+    { name: "강감찬", age: 30, active: false },
+  ];
+  // users의 사용자들중에서 "활성상태(active=true)" 이고
+  // 나이가 19세 이상인 사용자의 이름들을 조회
+  const names = users
+    .filter(user => user.active)
+    .filter(user => user.age >= 19)
+    .map(user => user.name);
 
-  // const names = users
-  //   .filter(user => user.active)
-  //   .filter(user => user.age >= 19)
-  //   .map(user => user.name);
-
-  // console.log(names); // ["홍길동"]
+  console.log(names); // ["홍길동"]
 }

@@ -4,6 +4,7 @@ const textTarget = document.querySelector("#text-target");
 
 function changeTextContent() {
   // 태그 문자열을 넣어도 HTML로 해석하지 않고 글자 그대로 표시한다.
+  console.log("textTarget.textContent:", textTarget.textContent); // 변경전 값
   textTarget.textContent = "변경된 텍스트 <strong>태그도 글자로 표시</strong>";
   console.log("textContent로 텍스트를 변경했습니다.");
 }
@@ -24,7 +25,7 @@ const sampleLink = document.querySelector("#sample-link");
 const attributeResult = document.querySelector("#attribute-result");
 
 function changeLinkAttributes() {
-  sampleLink.setAttribute("href", "https://example.com");
+  sampleLink.setAttribute("href", "https://www.naver.com");
   sampleLink.removeAttribute("target");
 
   const currentHref = sampleLink.getAttribute("href");
@@ -56,7 +57,8 @@ const styleTarget = document.querySelector("#style-target");
 function changeInlineStyle() {
   // CSS의 font-size는 JavaScript에서 fontSize(카멜 표기법)로 쓴다.
   styleTarget.style.color = "blue";
-  styleTarget.style.fontSize = "20px";
+  styleTarget.style.fontSize = "30px";
+  //styleTarget.setAttribute("style", "font-weight:bold;border:1px solid blue")
   console.log("인라인 스타일을 변경했습니다. color: blue, fontSize: 20px");
 }
 

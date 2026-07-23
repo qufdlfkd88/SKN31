@@ -56,7 +56,7 @@ const fruitList = document.querySelector("#fruit-list");
 
 function removeAppleItem() {
 
-  const appleItem = document.querySelector("#apple-item");
+  const appleItem = document.querySelector("#apple-item");  // 삭제할 노드
 
   if (!appleItem) {
     console.log("사과 항목이 이미 삭제되었습니다.");
@@ -69,6 +69,10 @@ function removeAppleItem() {
 
 function removeAllItem() {
 
+  // ElementNode.hasChildNodes(): 자식노드가 있는지 여부.
+  // ElementNode.firstChild / lastChild : 첫번째/마지막 자식 노드 객체를 반환
+  // ElementNode.parentNode // 부모노드 반환
+  // ElementNode.children   // 모든 자식노드들을 Node List로 반환.
   while (fruitList.hasChildNodes()) {
       // 부모노드.removeChild(삭제할 자식노드);
       fruitList.removeChild(fruitList.firstChild);

@@ -47,16 +47,17 @@ function handleSignupSubmit(event) {
   appendResultLine(`이름: ${name}`);
   appendResultLine(`나이: ${age} (숫자로 변환: ${Number(age)})`);
 
-  // 18.4 체크박스: 선택 여부는 checked로 확인한다. true, false 로 확인
-  const agreeChecked = signupForm.elements.agree.checked;
-  const agreeValue = formData.get("agree");
+  // 18.4 체크박스: 선택 여부는 checked로 확인한다. 
+  const agreeChecked = signupForm.elements.agree.checked; // true, false 로 확인
+  const agreeValue = formData.get("agree"); // on null 확인
 
   appendResultLine(`약관 동의 여부(checked): ${agreeChecked}`);
   appendResultLine(`약관 동의 값(value): ${agreeValue}`);
 
   // getAll(): 같은 이름을 가진 모든 값을 배열로 반환한다.
-  const hobbies = formData.getAll("hobby");
+  const hobbies = formData.getAll("hobby"); // 체크된 체크박스들의 값들을 배열로 변환
   appendResultLine(`선택한 취미(getAll): ${hobbies.length > 0 ? hobbies.join(", ") : "(없음)"}`);
+  console.log("선택된 취미들:", hobbies)
 
   // 18.5 라디오 버튼: 선택된 항목의 value를 반환한다. 없으면 null.
   const level = formData.get("level");
@@ -74,7 +75,7 @@ const elementsResult = document.querySelector("#elements-result");
 function readFormElements() {
   const nameInput = signupForm.elements.name;
   const agreeInput = signupForm.elements.agree;
-
+  console.log(nameInput);
   elementsResult.textContent =
     `이름 입력값: "${nameInput.value}" / 약관 동의: ${agreeInput.checked}`;
   console.log("form.elements.name.value:", nameInput.value);

@@ -17,3 +17,25 @@ class Question(models.Model):                                 # create table que
     pub_date = models.DateTimeField(auto_now_add=True)        #   pub_date datetime
     # auto_now_add=True : insert 시점의 일시를 자동으로 입력
 
+    def __str__(self):
+        return f"{self.pk}. {self.question_text}"
+        # self.pk : Primary Key Field의 값을 조회
+
+# Choice 모델 클래스
+class Choice(models.Model):
+    choice_text = models.CharField(max_length=200)
+    vote = models.PositiveIntegerField(default=0)
+    question = models.ForeignKey(
+        Question,   # 참조 Model 클래스
+        on_delete = models.CASCADE  # 부모 데이터가 삭제되면 같이 삭제
+    )
+
+    def __str__(self):  # POLLS > CHOICE > 제목이 나옴
+        return f'{self.pk}. {self.choice_text}'
+
+# 모델 클래스를 최초 생성, 수정 한 경우 Database에 적용
+# 1. python manage.py makemigrations   [app이름] - app 이름을 주면 그 app에만 적용
+#   - DB에 적용할 것들을 코드로 작성.
+# 2. python manage.py migrate   # DB에 적용
+
+# 테이블 이름: app이름_class이름 (polls_question)

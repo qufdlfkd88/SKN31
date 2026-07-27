@@ -10,9 +10,9 @@ from django.db import models
 ### - 특정 Field를 PK로 설정하려면 Field(primary_key=True) 로 설정
 
 # Question Model Class 정의
-class Question(models.Model):                                 # create table question
+class Question(models.Model):                                 # create table question, 테이블을 만든다
     # 질문문장
-    question_text = models.CharField(max_length=200)          #   question_text, varchar(200)
+    question_text = models.CharField(max_length=200)          #   question_text, varchar(200), 컬럼을 만든다
     # 질문등록일시
     pub_date = models.DateTimeField(auto_now_add=True)        #   pub_date datetime
     # auto_now_add=True : insert 시점의 일시를 자동으로 입력
@@ -33,9 +33,9 @@ class Choice(models.Model):
     def __str__(self):  # POLLS > CHOICE > 제목이 나옴
         return f'{self.pk}. {self.choice_text}'
 
-# 모델 클래스를 최초 생성, 수정 한 경우 Database에 적용
+# 모델 클래스를 최초 생성, 수정 한 경우 Database에 적용, 위에서 가상의 테이블을 만들었다면 makemigrations 테이블을 만든다고 선언
 # 1. python manage.py makemigrations   [app이름] - app 이름을 주면 그 app에만 적용
 #   - DB에 적용할 것들을 코드로 작성.
-# 2. python manage.py migrate   # DB에 적용
+# 2. python manage.py migrate   # DB에 적용, 선언한 테이블을 실제로 적용, 가상의 테이블이 수정이 되었다면 makemigrations, migrate 다시 실행 해야함
 
 # 테이블 이름: app이름_class이름 (polls_question)

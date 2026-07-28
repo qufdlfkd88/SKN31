@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect # redirect: insert, update 시 사용
+from django.urls import reverse
 from django.http import HttpResponse
 from datetime import datetime
 # 모델 클래스  import
@@ -99,7 +100,7 @@ def vote_form(request, question_id):
 #
 ## 요청 URL: /polls/vote
 ## view함수: vote
-## 응답    : 정상 - polls/vote_result.html
+## 응답    : 정상 - polls/vote_result.html -> polls/vote_result View로 redirec 방식으로 이동
 ##           오류 - polls/vote_form.html (보기를 선택하지 않고 투표한 경우)
 ##############################################
 # 요청파라미터를 조회
@@ -117,17 +118,53 @@ def vote(request):
         choice.vote += 1
         choice.save() # update 쿼리 실행.
 
+        # Redirect 방식으로 vote_result View로 이동
+        ## Web Browser에게 결과를 보여주는 View로 이동하도록 요청.
+        ## 그래서 새로고침을 하더라도 투표가 다시 되는 것을 막도록 한다.
+
+        # urls.py의 설정된 URL을 조회 -> reverse(url mapping설정 이름)
+        # url설정이름: app_name: 설정name
+
+        # url = "/polls/vote_result/"+str(question_id) # redirect 할 url
+        url = reverse("polls:vote_result", args=[question_id]) # path parameter: args에 순서대로 입력
+        print(">>>>>>>>> reverse url:", url)
+        return redirect(url)   # 응답상태코드가 300인 HttpResponse를 반환
+
+
         # vote_result.html 로 이동
         ## Question과 choice들을 조회
-        question = Question.objects.get(pk=question_id)
-        choice_list = question.choice_set.all()
-        return render(
-            request, 
-            "polls/vote_result.html", 
-            {"question":question, "choice_list":choice_list}
-        )
+
+        # question = Question.objects.get(pk=question_id)
+        # choice_list = question.choice_set.all()
+        # return render(
+        #     request, 
+        #     "polls/vote_result.html", 
+        #     {"question":question, "choice_list":choice_list}
+        # )
 
 
 
     else: # 보기를 선택하지 않고 투표한 경우.
-        pass
+        # vote_form.html 로 이동.
+        # context value: Question과 choice들 + Error Message
+        question = Question.objects.get(pk=question_id)
+        choice_list = question.choice_set.all()
+        return render(
+            request, "polls/vote_form.html", {"question":question, "choice_list":choice_list, "error_message":"보기를 선택하고 투표하세요."}
+        )
+
+###############################################
+# 투표 결과를 보여주는 View
+#
+# 요청 URL: polls/vote_result/<int:question_id>
+# View함수 : vote_result
+# 응답 Template: polls/vote_result.html
+################################################
+def vote_result(request, question_id):
+    question = Question.objects.get(pk=question_id)
+    choice_list = question.choice_set.all()
+    return render(
+            request, 
+            "polls/vote_result.html", 
+            {"question":question, "choice_list":choice_list}
+    )

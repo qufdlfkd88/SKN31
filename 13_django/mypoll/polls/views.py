@@ -6,6 +6,7 @@ from django.db import transaction
 from datetime import datetime
 # 모델 클래스  import
 from .models import Question, Choice
+from .forms import QuestionForm, ChoiceFormSet, ChoiceForm
 
 
 
@@ -250,3 +251,22 @@ def vote_create_old(request):
 
     ###### 응답: redirect방식 -> 설문 목록이동
     return redirect(reverse("polls:vote_list"))
+
+##############################
+# Form을 이용
+##############################
+def vote_create(request):
+    if request.method == 'GET':
+        # 응답화면 전환
+        ## Form을 이용해서 template에 입력 양식을 구현할 경우.
+        ## Form객체를 생성, 객체를 context value로 template에게 전달.
+        q_form = QuestionForm()
+        c_form = ChoiceForm()
+
+        return render(
+            request,
+            "polls/vote_create_form.html",
+            {"q_form":q_form, "c_form":c_form}
+        )
+    elif request.method == 'POST':
+        pass

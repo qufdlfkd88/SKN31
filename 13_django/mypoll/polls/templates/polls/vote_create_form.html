@@ -1,0 +1,56 @@
+{% extends 'layout/main_layout.html' %}
+{% block title %} 질문등록 - form {% endblock title %}
+{% block contents %}
+<h1>설문 문제 등록 - form 이용</h1>
+<form method="post">
+    {% csrf_token %}
+    <h3>질문</h3>
+    {# context value로 넘어온 Form 객체를 출력 -> 입력 폼을 생성 #}
+    {{q_form}}
+    <h3>보기</h3>
+    <div id="choice_layer" class="mt-3">
+        {{c_form}}
+    </div>
+    <div id="btn-layer" class="mt-3">
+        <button type="submit" class="btn btn-primary">등록</button>
+        <button type="reset" class="btn btn-primary">초기화</button>
+        <button type="button" id="choice-add-btn" class="btn btn-info">보기추가</button>
+        <button type="button" id="choice-del-btn" class="btn btn-info">보기삭제</button>
+    </div>
+</form>
+{% endblock contents %}
+<script>
+    const add_btn = document.querySelector("#choice-add-btn");
+    const del_btn = document.querySelector("#choice-del-btn");
+    // 보기 추가 버튼 이벤트 처리.
+    add_btn.addEventListener("click", () => {
+        const div = document.createElement("div"); // <div></div>
+        const input = document.createElement("input"); // <input>
+        input.setAttribute("type", "text"); // <input type="text" >
+        input.setAttribute("name", "choice_text");
+        input.setAttribute("required", true);
+
+        //class: form-control 추가
+        input.classList.add('form-control');
+
+        div.append(input);//<div><input..></div>
+        document.querySelector("#choice-layer").append(div);//choice layer에 생성한 div추가
+    });
+    
+    // 보기 삭제 버튼 event 처리
+    del_btn.addEventListener("click", ()=>{
+        // 보기 input 하나를 삭제. 
+        // 보기 input은 최소 두개는 유지(두개 이하일 경우는 삭제하지 않는다.)
+        const choice_layer = document.querySelector("#choice-layer");
+        // Node.children : 자식노드들을 nodelist로 반환.
+        if (choice_layer.children.length > 2) {
+            // 부모노드.removeChild(삭제할자식노드)
+            // 부모노드.lastChild -> 마지막 자식 노드반환. 
+            choice_layer.removeChild(choice_layer.lastChild);
+        } else {
+            // 경고창 (alert("메세지"))
+            alert("보기는 세개 이상일 경우만 삭제할 수 있습니다.")
+        }
+
+    });
+</script>

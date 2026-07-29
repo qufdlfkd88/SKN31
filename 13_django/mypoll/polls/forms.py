@@ -57,5 +57,5 @@ class ChoiceForm(forms.Form):
 #   - 동일한 input(들)을 여러개 관리할 때 사용.
 ChoiceFormSet = forms.formset_factory(
     ChoiceForm, # Form 클래스
-    extra=2,    # Form클래스의 field들을 extra개수 만큼 반복해서 가진다.
+    extra=2    # Form클래스의 field들을 extra개수 만큼 반복해서 가진다.
 )

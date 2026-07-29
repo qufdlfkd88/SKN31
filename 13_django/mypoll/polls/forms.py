@@ -15,7 +15,8 @@ class QuestionForm(forms.Form):
     question_text = forms.CharField( # 문자열 입력 폼 - <input type=text> (default)
         label="", # 입력폼에 대한 label설정
         max_length=200, # 최대 입력 글자수 <input max_length=200
-        widget=forms.TextInput(attrs={"class":"form-control"})
+        widget=forms.TextInput(attrs={"class":"form-control"}),
+        #strip=False
     )
 
     # 요청파라미터 검증 메소드 => 업무규칙(사용자정의 규칙)을 검증
@@ -45,8 +46,8 @@ class ChoiceForm(forms.Form):
     )
 
     def clean_choice_text(self):
-        txt = self.cleaned_data['choice_text'].strip()
-        if not len(txt):
+        txt = self.cleaned_data['choice_text']
+        if len(txt.strip()) < 2:
             raise forms.ValidationError("보기는 1글자 이상 입력하세요.")
 
         return txt

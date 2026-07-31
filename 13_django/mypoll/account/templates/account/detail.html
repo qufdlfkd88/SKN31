@@ -1,4 +1,5 @@
-{% extends 'layout/main_layout.html' %}
+<!-- templates/account/detail.html -->
+{% extends 'layout/main_layout.html'%}
 
 {% block title %}사용자 정보{% endblock title %}
 
@@ -28,5 +29,7 @@
     <a href="{% url 'account:password_change' %}" class="btn btn-primary">패스워드변경</a>
     <a href="" class="btn btn-danger">탈퇴</a>
 </div>
+
+
 
 {% endblock contents %}

@@ -1,3 +1,4 @@
+# 장고 프로젝트 생성
 1. mypoll  프로젝트 디렉토리 생성
 2. 가상환경을 생성 (mypoll안에서 생성)
     - `uv venv .venv --python=3.13`
@@ -31,7 +32,7 @@
         -`http://127.0.0.1:8000/admin`
 
 
-# tempate 생성
+## tempate 생성
 - 위치
     - `app/templates` 하위에 작성.
         - `polls/templates/polls`
@@ -44,16 +45,16 @@
 # account APP 구현 (사용자 관리)
 - APP 생성
     - `python manage.py startapp account`
-    - settings.py에 `INSTALLED_APPS` 에 등록 ("account")
-    - `url config에 account URL 매핑 설정
-        - config/urls.py (ROOT URLConfig) 에 account -> account/url.py 호출하도록 설정
+    - config/settings.py에 `INSTALLED_APPS` 에 등록 ("account")
+    - url config에 account URL 매핑 설정
+        - config/urls.py (ROOT URLConfig) 에 account -> account/urls.py 호출하도록 설정
         - account/urls.py 생성.
     - templates 디렉토리 생성:
         - `account/templates/account`
 
-## 사용자관리
+## 사용자관리 
 
-- django-bootstrap5 설치: bootstrap을 적용하는 template 태그들을 제공
+- djanog-bootstrap5 설치: bootstrap을 적용하는 template 태그들을 제공.
 - `uv pip install django-bootstrap5`
 - config/settings.py 의 `INSTALLED_APP` 에 등록 ('django_bootstrap5')
 
@@ -65,12 +66,15 @@
     - admin app에서 사용하는 User Model를 우리가 정의한 User Model로 변경
     - AUTH_USER_MODEL = 'account.CustomUser'
 - `account/admin.py` 에 CustomUser 모델을 등록 -> 관리자앱에서 관리가능.
-    - Adming APP에서 User 관리하는 화면을 변경.
+    - Admin APP에서 User 관리하는 화면을 변경.
+
 - DB에 적용
     - `mypoll/db.sqlite3` 삭제(DB삭제)
     - `python manage.py makemigrations`
     - `python manage.py migrate`
-    - `python manage.py createsuperuser`    (admin/1111)
+    - `python manage.py createsuperuser` (admin/1111)
+
+    python manage.py runserver
 
 ### Form 정의
 - `account\forms.py` 생성하고 그 안에 구현
@@ -80,3 +84,4 @@
     - Form Field의 설정을 Model Field에 정의.
     - ModelForm 생성시 Model을 지정하고 어떤 Field들을 Form에 넣을지 선택.
         - save()메소드를 제공 -> insert와 update를 Model을 거치지 않고 할 수 있다.
+

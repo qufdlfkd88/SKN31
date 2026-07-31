@@ -25,6 +25,7 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     # polls: url이 polls로 시작하면 나머지는 polls/urls.py를 참조해라.
     path('account/', include('account.urls')),
+    
 
 
     # 파라미터 1: url, 2: 함수, name="설정이름"

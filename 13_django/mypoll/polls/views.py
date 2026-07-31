@@ -4,14 +4,13 @@ from django.http import HttpResponse
 from django.db import transaction
 from django.core.paginator import Paginator
 
-# 로그인 해야지만 처리할 수 있는 view함수에 붙이는 decorator. 
-# 로그인이 안된 상태로 요청이 들어오면 로그인 화면으로 이동(이동할 URL은 settings.py에 LOGIN_URL 변수에 설정) 시킨다.
 from django.contrib.auth.decorators import login_required
+# 로그인 해야지만 처리할 수 있는 view함수에 붙이는 decorator. 로그인이 안된 상태로 요청이 
+# 들어오면 로그인 화면으로 이동(이동할 URL은 settings.py에 LOGIN_URL 변수에 설정)시킨다. 
 
 from datetime import datetime
 # 모델 클래스  import
 from .models import Question, Choice
-from .forms import QuestionForm, ChoiceFormSet, ChoiceForm
 
 
 
@@ -62,7 +61,7 @@ def welcome_polls(request):
 ##########################################
 # View함수 파라미터: 1 - request: HttpRequest 객체(HTTP 요청정보)를 받는 변수(필수)
 #                   2 부터 - path 파라미터를 받기 위한 변수들.(옵션)
-def vote_list(request): ############ Paging 처리 전 ###############
+def vote_list_backup(request):  #######Paging 처리 전#######
     # DB에서 Question들을 조회
     question_list = Question.objects.all().order_by("-pub_date")
     # QuerySet [M, M, M]
@@ -70,47 +69,48 @@ def vote_list(request): ############ Paging 처리 전 ###############
     return render(
         request, "polls/vote_list.html", {"question_list":question_list}
     )
-##############################################
-# vote_list: Paging 처리
+
+################################################################################################
+# vote_list: Paging 처리 
 #
 # context value:
 ## 현재 페이지의 데이터: Page객체 : question_list
-## 현재 페이지가 속한 페이지그룹의 시작/종료 page 번호 : page_range
-## 페이지 그룹의 시작페이지가 이전페이지가 있는지 여부와 이전페이지 번호 : 
-## has_previous, previous_page_number
-## 페이지 그룹의 시작페이지가 이전페이지가 있는지 여부와 다음페이지 번호 : 
-## has_next, next_page_number
-# 요청 url: polls/list?page=페이지번호 (page가 생략되면 첫번째 페이지를 출력)
-##############################################
+## 현재 페이지가 속한 페이지그룹의 시작/종료 page 번호: page_range
+## 페이지 그룹의 시작페이지가 이전페이지가 있는지 여부와 이전페이지 번호:
+#                                                    has_previous, previous_page_number
+## 페이지 그룹의 마지막페이지가 다음페이지가 있는지 여부와 다음페이지 번호:
+#                                                    has_next, next_page_number
+#
+# 요청 url: polls/list?page=페이지번호  (page가 생략되면 첫번째 페이지를 출력)
+################################################################################################
 def vote_list(request):
-    pagenate_by = 10    # 한페이지에 보여줄 데이터의 개수
-    page_group_count = 10   # 한 페이지 그룹에 속한 페이지 개수
+    pagenate_by = 10      # 한 페이지에 보여줄 데이터의 개수
+    page_group_count = 10 # 한 페이지그룹에 속한 페이지 개수
 
-    current_page = int(request.GET.get("page", 1))  # 현재 응답할 페이지
+    current_page = int(request.GET.get("page", 1))# 현재 응답할 페이지
 
-    # DB 조회   ->  Paginator 생성
+    # DB 조회 -> Paginator생성
     q_list = Question.objects.all().order_by("-pk") # 최신 등록 질문순으로 조회
     pn = Paginator(q_list, pagenate_by)
 
     # 현재 페이지가 속한 페이지그룹의 시작/종료 페이지 번호를 조회
     start_index = int((current_page-1)/page_group_count) * page_group_count
     end_index = start_index + page_group_count
-
     page_range = pn.page_range[start_index : end_index]
 
     # 현재페이지의 데이터들
     question_list = pn.page(current_page)
 
     context_value = {
-        "page_range" : page_range,
-        "question_list" : question_list,
+        "page_range": page_range,
+        "question_list": question_list,
     }
 
-    # 페이지그룹의 시작페이지가 이전페이지가 있는지 여부, 있다면 이전페이지 번호
+    # 페이지그룹의 시작페이지가 **이전페이지**가 있는지 여부, 있다면 이전페이지 번호
     # 페이지그룹의 마지막페이지가 다음페이지가 있는지 여부, 있다면 다음페이지 번호
-    start_page = pn.page(page_range[0]) # 시작페이지의 page 객체
-    end_page = pn.page(page_range[-1])  # 끝페이지의 page 객체
-
+    start_page = pn.page(page_range[0]) # 시작페이지의 Page객체
+    end_page = pn.page(page_range[-1])  # 끝 페이지의 Page객체
+    
     if start_page.has_previous():
         context_value['has_previous'] = True
         context_value['previous_page_number'] = start_page.previous_page_number()
@@ -310,21 +310,24 @@ def vote_create_old(request):
     ###### 응답: redirect방식 -> 설문 목록이동
     return redirect(reverse("polls:vote_list"))
 
-##############################
+
+#######################
 # Form을 이용
-##############################
+#######################
+from .forms import QuestionForm, ChoiceFormSet, ChoiceForm
+
 @login_required
 def vote_create(request):
     if request.method == 'GET':
-        # 응답화면 전환
+        # 응답화면 반환
         ## Form을 이용해서 template에 입력 양식을 구현할 경우.
         ## Form객체를 생성, 객체를 context value로 template에게 전달.
         q_form = QuestionForm()
-        #c_form = ChoiceForm()
+        # c_form = ChoiceForm()
         c_formset = ChoiceFormSet()
 
         return render(
-            request,
+            request, 
             "polls/vote_create_form.html",
             {"q_form":q_form, "c_formset":c_formset}
         )
@@ -332,11 +335,11 @@ def vote_create(request):
         # 등록 처리
         ## 요청파라미터를 Form을 이용해서 처리.(조회, 검증)
         ## 요청파라미터(request.POST) 를 initializer에 넣어서 객체 생성
-        ### 요청파라미터 name를 검증하고 검증 통과한 값들을 cleaned_data에 저장. 검증(기본, clean메소드)까지 처리
+        ### 요청파라미터name를 검증하고 검증 통과한 값들을 cleaned_data에 저장. 검증(기본, clean메소드)
         q_form = QuestionForm(request.POST, request.FILES)
         c_formset = ChoiceFormSet(request.POST, request.FILES)
         # 요청파라미터 검증 성공 여부 확인 - 성공: 처리, 실패: 오류처리 페이지로 이동
-        ## form.is_valid(): bool -> 검증 성공여부 확인
+        ## form.is_valid(): bool -> 검증 성공여부 확인.
         if q_form.is_valid() and c_formset.is_valid():
             # 요청파라미터 값들을 Form에서 조회
             q_text = q_form.cleaned_data['question_text']
@@ -352,12 +355,16 @@ def vote_create(request):
                         c = Choice(choice_text=choice, question=q)
                         c.save()
             except Exception as e:
-                return render(request, "polls/error.html", {"error_message:" "설문 질문 등록 도중 오류 발생"})
+                return render(
+                    request, 
+                    "polls/error.html", 
+                    {"error_message": "설문 질문 등록 도중 오류 발생"}
+                )
             return redirect(reverse("polls:vote_list"))
         else:
             # 검증 실패 -> form객체를 context value로 해서 다시 vote_create.html로 이동.
             return render(
                 request,
                 "polls/vote_create_form.html",
-                {"q_form":q_form, "c_formset":c_formset} # 요청 파라미터를 가진 form들
+                {"q_form":q_form, "c_formset":c_formset} #요청파라미터 가진 Form들
             )

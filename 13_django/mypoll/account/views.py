@@ -176,3 +176,19 @@ def password_change(request):
             return render(request, "account/password_change.html", {"form":form})
 
 
+####################################################
+# 사용자 탈퇴 처리(삭제)
+#
+# 요청 URL: /account/delete
+# view함수: user_delete
+#응답     : redirect - 홈페이지 (poll:polls_welcome)
+####################################################
+@login_required # 로그인이 안되었다면 로그인 하도록 로그인 페이지로 이동
+def user_delete(request):
+    # 로그인한 사용자의 정보를 DB에서 delete -> logout 처리 -> 응답
+    user = get_user(request)    # Model객체
+    user.delete()
+    # 로그아웃
+    logout(request)
+    # 응답
+    return redirect(reverse("polls/polls_welcome"))
